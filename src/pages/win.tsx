@@ -10,6 +10,7 @@ const Win = () => {
 	const [time, setTime] = useState(0);
 	const [validSubmissions, setValidSubmissions] = useState('');
 	const [invalidSubmissions, setInvalidSubmissions] = useState('');
+	const [hintsUsed, setHintsUsed] = useState('');
 
 	useEffect(() => {
 		if (
@@ -22,7 +23,9 @@ const Win = () => {
 			!router.query.validSubmissions ||
 			!router.query.invalidSubmissions ||
 			typeof router.query.validSubmissions != 'string' ||
-			typeof router.query.invalidSubmissions != 'string'
+			typeof router.query.invalidSubmissions != 'string' ||
+			!router.query.hintsUsed ||
+			typeof router.query.hintsUsed != 'string'
 		) {
 			router.push('/');
 			return;
@@ -33,6 +36,7 @@ const Win = () => {
 		setTime(parseInt(router.query.seconds));
 		setValidSubmissions(router.query.validSubmissions);
 		setInvalidSubmissions(router.query.invalidSubmissions);
+		setHintsUsed(router.query.hintsUsed);
 
 		setLoading(false);
 	}, []);
@@ -64,6 +68,10 @@ const Win = () => {
 							{Math.floor((time / 3600) % 60) > 0 ? `${String(Math.floor((time / 3600) % 60)).padStart(1, '0')}:` : ''}
 							{String(Math.floor((time / 60) % 60)).padStart(1, '0')}:{String(time % 60).padStart(2, '0')}
 						</p>
+					</div>
+					<div className='flex flex-col items-center'>
+						<p className='text-[#80A4AB] font-semibold'>HINTS USED</p>
+						<p className='font-bold text-3xl'>{hintsUsed}</p>
 					</div>
 					<div className='flex flex-col items-center'>
 						<p className='text-[#80A4AB] font-semibold'>VALID SUBMISSIONS</p>

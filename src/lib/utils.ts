@@ -23,7 +23,7 @@ export const generateWords = (theme: string, numberOfWords: number) => {
 	const themeWords: string[] = [];
 	for (let i = 0; i < numberOfWords; i++) {
 		let randWord = themeList[Math.floor(Math.random() * themeList.length)];
-        while (themeWords.findIndex((word) => word == randWord) > -1) {
+        while (themeWords.includes(randWord.toUpperCase())) {
             randWord = themeList[Math.floor(Math.random() * themeList.length)];
         }
 		themeWords.push(randWord.toUpperCase());
@@ -64,3 +64,17 @@ export const removeGuessFromLetters = (guess: string[], letters: string[]): stri
 
 	return lettersCopy;
 };
+
+export const shuffle = (arr: string[]) => {
+    let currentIndex = arr.length;
+  
+    while (currentIndex != 0) {
+  
+      let randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+  
+      [arr[currentIndex], arr[randomIndex]] = [
+        arr[randomIndex], arr[currentIndex]];
+    }
+    return arr
+  }

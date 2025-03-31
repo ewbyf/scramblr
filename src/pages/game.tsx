@@ -12,10 +12,16 @@ const Game = () => {
 	const [typedWord, setTypedWord] = useState('');
 	const [error, setError] = useState(false);
 	const [wordsList, setWordsList] = useState<string[]>([]);
-    const [seconds, setSeconds] = useState<number>(0);
+	const [seconds, setSeconds] = useState<number>(0);
 	const [validSubmissions, setValidSubmissions] = useState(0);
 	const [invalidSubmissions, setInvalidSubmissions] = useState(0);
 
+	const [wordToRemove, setWordToRemove] = useState('');
+	const [hintWord, setHintWord] = useState('');
+	const [hintIndex, setHintIndex] = useState(0);
+
+	const [hintsUsed, setHintsUsed] = useState(0);
+	const [shufflesUsed, setShufflesUsed] = useState(0);
 
 	const router = useRouter();
 
@@ -38,27 +44,41 @@ const Game = () => {
 		const newWord = typedWordSplit.filter((t) => t != ' ');
 
 		if (!isGuessValid(newWord, letters)) {
-            setInvalidSubmissions((prev) => prev + 1)
+			setInvalidSubmissions((prev) => prev + 1);
 			setError(true);
 			return;
 		}
 
-        setValidSubmissions((prev) => prev + 1)
+		setValidSubmissions((prev) => prev + 1);
 		setLetters(removeGuessFromLetters(newWord, letters));
-		guessedWords.push(newWord.join(''));
+		setGuessedWords([...guessedWords, newWord.join('')]);
 		setTypedWord('');
 		setError(false);
 		if (validateWords()) {
-			router.push({pathname: '/win', query: { theme: router.query.theme, words: router.query.words, seconds, validSubmissions: validSubmissions + 1, invalidSubmissions }});
+			router.push({
+				pathname: '/win',
+				query: { theme: router.query.theme, words: router.query.words, seconds, validSubmissions: validSubmissions + 1, invalidSubmissions, hintsUsed }
+			});
 		}
+
+		setHintIndex(0);
+		setHintWord('');
 	};
 
 	const removeWord = (word: string, idx: number) => {
 		guessedWords.splice(idx, 1);
 		setLetters([...letters, ...word.split('')]);
+
+		if (word == wordToRemove) {
+			setWordToRemove('');
+		}
 	};
 
 	const validateWords = () => {
+		if (wordsList.length != guessedWords.length) {
+			return false;
+		}
+
 		wordsList.sort((a, b) => a.localeCompare(b));
 		guessedWords.sort((a, b) => a.localeCompare(b));
 
@@ -66,11 +86,51 @@ const Game = () => {
 		else return false;
 	};
 
+	const getHint = () => {
+        setHintsUsed((prev) => prev + 1)
+		guessedWords.forEach((element) => {
+			if (!wordsList.includes(element)) {
+				setWordToRemove(element);
+				return;
+			}
+		});
+		if (hintWord == '') {
+			let randWord = wordsList[Math.floor(Math.random() * wordsList.length)];
+			while (guessedWords.includes(randWord)) {
+				randWord = wordsList[Math.floor(Math.random() * wordsList.length)];
+			}
+			setHintWord(randWord);
+            setTypedWord(randWord.slice(0, hintIndex + 1))
+		}
+        else if (hintIndex <= hintWord.length) {
+			setHintIndex((idx) => idx + 1);
+            setTypedWord(hintWord.slice(0, hintIndex + 1))
+		}
+	};
+
+    const giveUp = () => {
+        router.push({
+            pathname: '/lose',
+            query: { theme: router.query.theme, words: router.query.words, wordsList, guessedWords }
+        });
+    }
+
 	if (loading || typeof router.query.theme != 'string') return null;
 
 	return (
-		<div className='flex flex-col items-center h-full  bg-[url(/secondary.png)] bg-cover bg-center'>
-			<Stopwatch setTime={setSeconds}/>
+		<div className='flex flex-col items-center h-full bg-[url(/secondary.png)] bg-cover bg-center'>
+			<Stopwatch setTime={setSeconds} />
+			<div className='flex items-center absolute top-8 left-10 gap-4'>
+				<div className=' bg-[#E47777] px-6 py-3 rounded-2xl cursor-pointer hover:bg-[#DF6060]' onClick={() => giveUp()}>
+					<p className='text-xl text-white font-medium'>Give up</p>
+				</div>
+				<div className='bg-secondary px-6 py-3 rounded-2xl cursor-pointer hover:bg-[#6E8A7D]' onClick={() => getHint()}>
+					<p className='text-xl text-white font-medium'>Hint</p>
+				</div>
+				<div className=' bg-primary px-6 py-3 rounded-2xl cursor-pointer hover:bg-[#003D48]' onClick={() => {setShufflesUsed(prev => prev + 1); util.shuffle(letters)}}>
+					<p className='text-xl text-white font-medium'>Shuffle</p>
+				</div>
+			</div>
 			<div className='flex flex-col items-center justify-center my-15'>
 				<p className='font-bold text-2xl text-secondary'>YOUR THEME</p>
 				<p className='font-bold text-7xl text-primary'>{router.query.theme!.charAt(0).toUpperCase() + router.query.theme!.slice(1)}</p>
@@ -98,6 +158,7 @@ const Game = () => {
 						{guessedWords.map((word, i) => (
 							<div
 								className='bg-[#FFC568] flex justify-center items-center px-6 py-2 rounded-xl cursor-pointer hover:bg-[#FFD694]'
+								style={{ backgroundColor: wordToRemove == word ? '#E47777' : '' }}
 								onClick={() => removeWord(word, i)}
 								key={i}
 							>
