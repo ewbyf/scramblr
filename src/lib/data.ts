@@ -1,3 +1,5 @@
+export const topics: string[] = ["animals", "fruits", "countries", "states"]
+
 export const animals: string[] = ["Lion", "Tiger", "Elephant", "Giraffe", 
     "Zebra", "Monkey", "Bear", "Wolf", "Fox", "Deer", "Kangaroo", "Panda", 
     "Koala", "Cheetah", "Leopard", "Rhino", "Hippo", "Alligator", "Crocodile", 
@@ -17,7 +19,12 @@ export const fruits: string[] = ["Apple", "Banana", "Orange", "Grapes",
     "Coconut", "Lemon", "Lime", "Tangerine", "dragonfruit", "Passionfruit", 
     "Lychee", "Guava", "Persimmon", "Jackfruit", "Durian"]
 
-export const countries: string[] = []
+export const countries: string[] = ["United States", "Canada", "Mexico", "United Kingdom",
+    "Brazil", "Argentina", "Spain", "Portugal", "France", "Germany", "China", "India", "Japan", 
+    "North Korea", "South Korea", "Indonesia", "Singapore", "Thailand", "Vietnam", "Malayasia", 
+    "South Africa", "Egypt", "Australia", "Saudi Arabia", "Iran", "Iraq", "Turkey", "Russia", 
+    "Switzerland", "Finland", "Netherlands", "Nigeria", "El Salvador", "Colombia", "Peru", "Panama", 
+    "Ukraine", "Italy", "Sweden", "Iceland", "Pakistan", "Chile", "Guatemala", "Honduras"]
 
 export const states: string[] = ["Alabama", "Alaska", "Arizona", "Arkansas",
     "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
