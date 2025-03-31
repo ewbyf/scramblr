@@ -7,8 +7,8 @@ const Home = () => {
 	const [words, setWords] = useState('7');
 
 	return (
-		<div className='flex h-full justify-center items-center'>
-			<div className='flex flex-col py-[7%] items-center h-full w-1/3 gap-8'>
+		<div className='flex h-full justify-center items-center bg-[url(/landing.png)] bg-cover bg-center'>
+			<div className='flex flex-col py-[7%] items-center h-full w-1/3 gap-8 z-10'>
 				<p className='text-8xl font-bold text-primary'>Scramblr</p>
 				<p className='font-[Merriweather] text-2xl text-[#80998D] leading-[150%] text-center'>
 					In this word puzzle game, you'll receive a theme and a set of scrambled letters. Your goal is to form words related to the theme using the

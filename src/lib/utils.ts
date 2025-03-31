@@ -34,6 +34,33 @@ export const generateWords = (theme: string, numberOfWords: number) => {
 export const scrambleWords = (words: string[]) => {
 	// return array of letters that are scrambled based on array of words passed in
 	const joined = words.join('').split('');
-	const scrambled = joined.sort(() => Math.random() - 0.5);
+	const scrambled = joined.filter((j) => j != ' ').sort(() => Math.random() - 0.5);
 	return scrambled;
+};
+
+export const isGuessValid = (guess: string[], letters: string[]): boolean => {
+	const countOccurrences = (arr: string[]) => {
+		return arr.reduce<Record<string, number>>((acc, letter) => {
+			acc[letter] = (acc[letter] || 0) + 1;
+			return acc;
+		}, {});
+	};
+
+	const guessCount = countOccurrences(guess);
+	const lettersCount = countOccurrences(letters);
+
+	return Object.keys(guessCount).every((letter) => guessCount[letter] <= (lettersCount[letter] || 0));
+};
+
+export const removeGuessFromLetters = (guess: string[], letters: string[]): string[] => {
+	const lettersCopy = [...letters];
+
+	for (const letter of guess) {
+		const index = lettersCopy.indexOf(letter);
+		if (index !== -1) {
+			lettersCopy.splice(index, 1);
+		}
+	}
+
+	return lettersCopy;
 };
