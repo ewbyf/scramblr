@@ -20,7 +20,7 @@ export const generateWords = (theme: string, numberOfWords: number) => {
 		states: states
 	};
 
-	const themeList = themeMap[theme];
+	const themeList = themeMap[theme.toLowerCase()];
 
 	const themeWords: string[] = [];
 	for (let i = 0; i < numberOfWords; i++) {
