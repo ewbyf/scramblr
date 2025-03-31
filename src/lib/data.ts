@@ -16,7 +16,7 @@ export const fruits: string[] = ["Apple", "Banana", "Orange", "Grapes",
     "Strawberry", "Blueberry", "Raspberry", "Blackberry", "Pineapple", 
     "Mango", "Papaya", "Kiwi", "Watermelon", "Cantaloupe", "Honeydew", 
     "Peach", "Plum", "Cherry", "Apricot", "Date", "Pomegranate", "Avocado", 
-    "Coconut", "Lemon", "Lime", "Tangerine", "dragonfruit", "Passionfruit", 
+    "Coconut", "Lemon", "Lime", "Tangerine", "Dragonfruit", "Passionfruit", 
     "Lychee", "Guava", "Persimmon", "Jackfruit", "Durian"]
 
 export const countries: string[] = ["UnitedStates", "Canada", "Mexico", "UnitedKingdom",
