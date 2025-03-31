@@ -1,12 +1,14 @@
 import Stopwatch from '@/components/Stopwatch';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import * as util from '../lib/utils';
 
 const Game = () => {
 	const [loading, setLoading] = useState(true);
 	const [letters, setLetters] = useState<string[]>(['a', 'b', 'c']);
 
     const [guessedWords, setGuessedWords] = useState<string[]>([]);
+	const [wordsList, setWordsList] = useState<string[]>([])
 
 	const router = useRouter();
 
@@ -18,6 +20,11 @@ const Game = () => {
         
 		// use router.query.theme to access theme and router.query.words to access number of words
         // todo: generates words based on theme and number of words, stores in variable. also should scramble words into letters and store list of letters into another variable
+		const genWords = util.generateWords(router.query.theme, parseInt(router.query.words));
+		setWordsList(genWords);
+
+		const scam = util.scrambleWords(genWords)
+		setLetters(scam)
 
 		setLoading(false);
 	}, []);
@@ -27,6 +34,13 @@ const Game = () => {
     const validateWords = () => {
         // todo: this function will check to see if guessedWords contains the exact same words as the winning words regardless of order
         // should return true or false
+		wordsList.sort((a, b) => a.localeCompare(b))
+		guessedWords.sort((a, b) => a.localeCompare(b))
+
+		if(wordsList.every((element, index) => element === guessedWords[index]))
+			return true
+		else 
+			return false
     }
 
 	if (loading) return null;
