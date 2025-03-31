@@ -6,19 +6,28 @@ const Game = () => {
 	const [loading, setLoading] = useState(true);
 	const [letters, setLetters] = useState<string[]>(['a', 'b', 'c']);
 
+    const [guessedWords, setGuessedWords] = useState<string[]>([]);
+
 	const router = useRouter();
 
 	useEffect(() => {
-        if (!router.query.theme || !router.query.words) {
+        if (!router.query.theme || !router.query.words || typeof router.query.theme != 'string' || typeof router.query.words != 'string') {
             router.push('/')
+            return
         }
-		// use theme to get letters and words
-		// router.query.theme and router.query.words
+        
+		// use router.query.theme to access theme and router.query.words to access number of words
+        // todo: generates words based on theme and number of words, stores in variable. also should scramble words into letters and store list of letters into another variable
 
 		setLoading(false);
 	}, []);
 
 	const addWord = () => {};
+
+    const validateWords = () => {
+        // todo: this function will check to see if guessedWords contains the exact same words as the winning words regardless of order
+        // should return true or false
+    }
 
 	if (loading) return null;
 
