@@ -19,19 +19,19 @@ export const fruits: string[] = ["Apple", "Banana", "Orange", "Grapes",
     "Coconut", "Lemon", "Lime", "Tangerine", "dragonfruit", "Passionfruit", 
     "Lychee", "Guava", "Persimmon", "Jackfruit", "Durian"]
 
-export const countries: string[] = ["United States", "Canada", "Mexico", "United Kingdom",
+export const countries: string[] = ["UnitedStates", "Canada", "Mexico", "UnitedKingdom",
     "Brazil", "Argentina", "Spain", "Portugal", "France", "Germany", "China", "India", "Japan", 
-    "North Korea", "South Korea", "Indonesia", "Singapore", "Thailand", "Vietnam", "Malayasia", 
-    "South Africa", "Egypt", "Australia", "Saudi Arabia", "Iran", "Iraq", "Turkey", "Russia", 
-    "Switzerland", "Finland", "Netherlands", "Nigeria", "El Salvador", "Colombia", "Peru", "Panama", 
+    "NorthKorea", "SouthKorea", "Indonesia", "Singapore", "Thailand", "Vietnam", "Malayasia", 
+    "SouthAfrica", "Egypt", "Australia", "SaudiArabia", "Iran", "Iraq", "Turkey", "Russia", 
+    "Switzerland", "Finland", "Netherlands", "Nigeria", "ElSalvador", "Colombia", "Peru", "Panama", 
     "Ukraine", "Italy", "Sweden", "Iceland", "Pakistan", "Chile", "Guatemala", "Honduras"]
 
 export const states: string[] = ["Alabama", "Alaska", "Arizona", "Arkansas",
     "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
     "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", 
     "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi",
-    "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey",
-    "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio",
-    "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina",
-    "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia",
-    "Washington", "West Virginia", "Wisconsin", "Wyoming"]
+    "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "NewJersey",
+    "NewMexico", "NewYork", "NorthCarolina", "NorthDakota", "Ohio",
+    "Oklahoma", "Oregon", "Pennsylvania", "RhodeIsland", "SouthCarolina",
+    "SouthDakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia",
+    "Washington", "WestVirginia", "Wisconsin", "Wyoming"]
