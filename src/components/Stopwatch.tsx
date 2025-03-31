@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 
-const Stopwatch = () => {
+const Stopwatch = ({setTime} : {setTime: React.Dispatch<SetStateAction<number>>}) => {
 	const [seconds, setSeconds] = useState(0);
 
 	useEffect(() => {
 		const id = setInterval(() => {
 			setSeconds((prevSeconds) => prevSeconds + 1);
+            setTime((prevSeconds) => prevSeconds + 1)
 		}, 1000);
 
 		return () => {

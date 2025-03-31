@@ -7,12 +7,10 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const randTheme = () => {
-	// chooses a random theme from the ones we have
 	return topics[Math.floor(Math.random() * topics.length)];
 };
 
 export const generateWords = (theme: string, numberOfWords: number) => {
-	// return array of words based on theme and number of words
 	const themeMap: { [key: string]: string[] } = {
 		animals: animals,
 		fruits: fruits,
@@ -24,15 +22,17 @@ export const generateWords = (theme: string, numberOfWords: number) => {
 
 	const themeWords: string[] = [];
 	for (let i = 0; i < numberOfWords; i++) {
-		const randWord = themeList[Math.floor(Math.random() * themeList.length)];
-		themeWords.push(randWord);
+		let randWord = themeList[Math.floor(Math.random() * themeList.length)];
+        while (themeWords.findIndex((word) => word == randWord) > -1) {
+            randWord = themeList[Math.floor(Math.random() * themeList.length)];
+        }
+		themeWords.push(randWord.toUpperCase());
 	}
 
 	return themeWords;
 };
 
 export const scrambleWords = (words: string[]) => {
-	// return array of letters that are scrambled based on array of words passed in
 	const joined = words.join('').split('');
 	const scrambled = joined.filter((j) => j != ' ').sort(() => Math.random() - 0.5);
 	return scrambled;

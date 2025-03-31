@@ -1,4 +1,5 @@
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { randTheme } from '@/lib/utils';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -25,11 +26,10 @@ const Home = () => {
 								<SelectGroup>
 									<SelectLabel>Themes</SelectLabel>
 									<SelectItem value='Random'>Random</SelectItem>
-									<SelectItem value='apple'>Apple</SelectItem>
-									<SelectItem value='banana'>Banana</SelectItem>
-									<SelectItem value='blueberry'>Blueberry</SelectItem>
-									<SelectItem value='grapes'>Grapes</SelectItem>
-									<SelectItem value='pineapple'>Pineapple</SelectItem>
+									<SelectItem value='Animals'>Animals</SelectItem>
+									<SelectItem value='Fruits'>Fruits</SelectItem>
+									<SelectItem value='Countries'>Countries</SelectItem>
+									<SelectItem value='States'>States</SelectItem>
 								</SelectGroup>
 							</SelectContent>
 						</Select>
@@ -43,9 +43,12 @@ const Home = () => {
 							<SelectContent className='font-[Merriweather]'>
 								<SelectGroup>
 									<SelectLabel>Number of Words</SelectLabel>
+									<SelectItem value='3'>3</SelectItem>
+									<SelectItem value='4'>4</SelectItem>
 									<SelectItem value='5'>5</SelectItem>
 									<SelectItem value='6'>6</SelectItem>
 									<SelectItem value='7'>7</SelectItem>
+									<SelectItem value='8'>8</SelectItem>
 								</SelectGroup>
 							</SelectContent>
 						</Select>
@@ -54,7 +57,7 @@ const Home = () => {
 					<Link
 						href={{
 							pathname: '/game',
-							query: { theme, words }
+							query: { theme: theme == 'Random' ? randTheme() : theme, words }
 						}}
 						className='bg-[#004A57] px-8 py-3 rounded-lg w-full cursor-pointer hover:bg-[#003D48] flex justify-center items-center'
 					>

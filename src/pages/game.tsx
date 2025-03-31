@@ -11,7 +11,11 @@ const Game = () => {
 	const [guessedWords, setGuessedWords] = useState<string[]>([]);
 	const [typedWord, setTypedWord] = useState('');
 	const [error, setError] = useState(false);
-	const [wordsList, setWordsList] = useState<string[]>([])
+	const [wordsList, setWordsList] = useState<string[]>([]);
+    const [seconds, setSeconds] = useState<number>(0);
+	const [validSubmissions, setValidSubmissions] = useState(0);
+	const [invalidSubmissions, setInvalidSubmissions] = useState(0);
+
 
 	const router = useRouter();
 
@@ -20,61 +24,56 @@ const Game = () => {
 			router.push('/');
 			return;
 		}
-
-		// use router.query.theme to access theme and router.query.words to access number of words
-		// todo: generates words based on theme and number of words, stores in variable. also should scramble words into letters and store list of letters into another variable
 		const genWords = util.generateWords(router.query.theme, parseInt(router.query.words));
 		setWordsList(genWords);
 
-		const scam = util.scrambleWords(genWords)
-		setLetters(scam)
+		const scam = util.scrambleWords(genWords);
+		setLetters(scam);
 
 		setLoading(false);
 	}, []);
 
 	const addWord = () => {
-		const typedWordSplit = typedWord.split('');
+		const typedWordSplit = typedWord.toUpperCase().split('');
 		const newWord = typedWordSplit.filter((t) => t != ' ');
 
 		if (!isGuessValid(newWord, letters)) {
+            setInvalidSubmissions((prev) => prev + 1)
 			setError(true);
 			return;
 		}
 
+        setValidSubmissions((prev) => prev + 1)
 		setLetters(removeGuessFromLetters(newWord, letters));
 		guessedWords.push(newWord.join(''));
 		setTypedWord('');
 		setError(false);
-		// if (validateWords()) {
-		//     router.push('/win')
-		// }
+		if (validateWords()) {
+			router.push({pathname: '/win', query: { theme: router.query.theme, words: router.query.words, seconds, validSubmissions: validSubmissions + 1, invalidSubmissions }});
+		}
 	};
 
-	const removeWord = (word: string) => {
-		setGuessedWords(guessedWords.filter((wrd) => wrd != word));
+	const removeWord = (word: string, idx: number) => {
+		guessedWords.splice(idx, 1);
 		setLetters([...letters, ...word.split('')]);
 	};
 
 	const validateWords = () => {
-		// todo: this function will check to see if guessedWords contains the exact same words as the winning words regardless of order
-		// should return true or false
-		wordsList.sort((a, b) => a.localeCompare(b))
-		guessedWords.sort((a, b) => a.localeCompare(b))
+		wordsList.sort((a, b) => a.localeCompare(b));
+		guessedWords.sort((a, b) => a.localeCompare(b));
 
-		if(wordsList.every((element, index) => element === guessedWords[index]))
-			return true
-		else 
-			return false
+		if (guessedWords.every((word, i) => word == wordsList[i])) return true;
+		else return false;
 	};
 
-	if (loading) return null;
+	if (loading || typeof router.query.theme != 'string') return null;
 
 	return (
 		<div className='flex flex-col items-center h-full  bg-[url(/secondary.png)] bg-cover bg-center'>
-			<Stopwatch />
+			<Stopwatch setTime={setSeconds}/>
 			<div className='flex flex-col items-center justify-center my-15'>
 				<p className='font-bold text-2xl text-secondary'>YOUR THEME</p>
-				<p className='font-bold text-7xl text-primary'>{router.query.theme}</p>
+				<p className='font-bold text-7xl text-primary'>{router.query.theme!.charAt(0).toUpperCase() + router.query.theme!.slice(1)}</p>
 				<div className='px-8 py-2 bg-secondary flex justify-center items-center rounded-xl mt-4'>
 					<p className='text-white font-semibold text-xl'>{router.query.words} words</p>
 				</div>
@@ -96,10 +95,11 @@ const Game = () => {
 					{guessedWords.length == 0 && <p className='text-secondary text-xl font-bold'>No words have been guessed</p>}
 					{guessedWords.length > 0 && <p className='text-secondary text-xl font-bold'>Click to remove</p>}
 					<div className='flex flex-wrap gap-2 max-w-3/4'>
-						{guessedWords.map((word) => (
+						{guessedWords.map((word, i) => (
 							<div
 								className='bg-[#FFC568] flex justify-center items-center px-6 py-2 rounded-xl cursor-pointer hover:bg-[#FFD694]'
-								onClick={() => removeWord(word)}
+								onClick={() => removeWord(word, i)}
+								key={i}
 							>
 								<p className='text-2xl font-[Merriweather]'>{word}</p>
 							</div>
